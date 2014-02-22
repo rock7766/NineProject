@@ -1,11 +1,14 @@
 package com.me.mygdxgame;
 
+import java.util.Iterator;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 
 public class UniverseRenderer {
 	private Universe universe;
@@ -32,12 +35,15 @@ public class UniverseRenderer {
 		debugRenderer.circle(cir.x, cir.y, cir.radius,50);
 		
 		// render many Bullet
-		Bullet[] ary = universe.getBulletAry();
-		for (int i = 0; i < ary.length; i++) {
-			Circle cir1 = ary[i].getCircle();
-			debugRenderer.setColor(new Color(0, 1, 0, 1));
-			debugRenderer.circle(cir1.x, cir1.y, cir.radius,50);
-		}
+		Array<Bullet> ary = universe.getBulletAry();
+		Iterator<Bullet> iter = ary.iterator();
+		while(iter.hasNext()) {
+			   Bullet temp = iter.next();
+			   Circle cir1 = temp.getCircle();
+				debugRenderer.setColor(new Color(0, 1, 0, 1));
+				debugRenderer.circle(cir1.x, cir1.y, cir.radius,50);			   
+	   }
+
 		
 		// render airplane
 		Airplane airplane = universe.getAirplane();

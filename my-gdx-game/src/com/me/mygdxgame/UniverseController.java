@@ -1,12 +1,17 @@
 package com.me.mygdxgame;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.HashMap;
+
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 
 public class UniverseController {
 	private Universe universe;
 	private Bullet bullet;
-	private Bullet[] ary;
 	private Airplane airplane;
 	
 	enum Keys {
@@ -25,7 +30,6 @@ public class UniverseController {
 	public UniverseController(Universe universe) {
 		this.universe = universe;
 		this.bullet = universe.getBullet();
-		this.ary = universe.getBulletAry();
 		this.airplane = universe.getAirplane();
 	}
 	
@@ -93,9 +97,16 @@ public class UniverseController {
 		bullet.update(delta);
 		
 		// update many bullet
-		for (int i = 0; i < ary.length; i++) {
-			ary[i].update(delta);
-		}
-		
+		Array<Bullet> ary = universe.getBulletAry();
+		ary.add(Bullet.Generator(MathUtils.random(0,3)));
+		Iterator<Bullet> iter = ary.iterator();
+		while(iter.hasNext()) {
+			   Bullet temp = iter.next();
+			   temp.update(delta);
+			   if(temp.getPosition().x<0 || temp.getPosition().x>10
+					   ||temp.getPosition().y<0 || temp.getPosition().y>7.5 ){
+				   iter.remove();
+			   }
+	   }
 	}
 }
